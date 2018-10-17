@@ -1,5 +1,5 @@
 
-<apex:page standardController="Account" extensions="AccountSearchController">
+<apex:page standardController="Account" extensions="ActSearchController">
     <style type="text/css">
         body {background: #F3F3EC; padding-top: 15px}
     </style>
