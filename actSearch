@@ -1,0 +1,60 @@
+
+<apex:page standardController="Account" extensions="AccountSearchController">
+    <style type="text/css">
+        body {background: #F3F3EC; padding-top: 15px}
+    </style>
+ 
+    <apex:form title="Merger"  >
+        <apex:pageBlock title="Accounts with same Billing Address" id="block" mode="detail">        
+            <apex:pageMessages />
+ 
+                <apex:pageBlockSection title="Search by" columns="1" id="detail"  collapsible="false">      
+                    <apex:outputpanel id="thePanel" style="">       
+                     <p>
+                      <apex:pageblockSectionItem id="id1" labelStyle="font-weight:600" >
+                        <apex:outputLabel style="font-weight:600;padding-left:0px;padding-right:80px"> Billing Street</apex:outputLabel>                                           
+                      </apex:pageblockSectionItem>
+                      <apex:pageblockSectionItem >                       
+                         <apex:outputLabel style="font-weight:600;padding-left:35px;padding-right:120px"> Billing City     </apex:outputLabel>                                           
+                      </apex:pageblockSectionItem>
+                      <apex:pageblockSectionItem >
+                         <apex:outputLabel style="font-weight:600;padding-left:5px;padding-right:80px"> Billing Zip Code </apex:outputLabel>                                           
+                      </apex:pageblockSectionItem>
+                      <apex:pageblockSectionItem >
+                         <apex:outputLabel style="font-weight:600;padding-left:20px;padding-right:50px"> Billing State    </apex:outputLabel>                                                                                     
+                      </apex:pageblockSectionItem>
+                      </p>    
+                        <apex:inputText style="padding-left:0px;padding-right:50px" id="bs" value="{!BillingStreet}"  label="Billing Street"/>                   
+                        <apex:inputText style="padding-left:0px;padding-right:50px" id="bc" value="{!BillingCity}"  label="Billing City   "/>                     
+                        <apex:inputText style="padding-left:0px;padding-right:50px" id="bz" value="{!BillingPostalCode}"  label="Billing Zipcode   "/>                     
+                        <apex:inputText style="padding-left:0px;padding-right:50px" id="bst" value="{!BillingState}"  label="Billing State   "/>                                  
+                    </apex:outputPanel>
+                </apex:pageBlockSection>               
+ 
+            <apex:pageBlockSection >
+                <apex:panelGroup style="align:left" >
+                    <apex:commandButton value="Search" action="{!search}" rerender="resultsBlock" status="status"/>
+                </apex:panelGroup>
+            </apex:pageBlockSection>
+
+            <apex:actionStatus id="status" startText="Searching... please wait..."/>
+            <apex:pageBlockSection id="resultsBlock" columns="1">
+                <apex:pageBlockTable value="{!SearchResults}" var="o" rendered="{!NOT(ISNULL(SearchResults))}">
+
+                    <apex:column headerValue="Name">
+                        <apex:outputLink value="/{!o.Id}">{!o.Name}</apex:outputLink>
+                    </apex:column>
+                    <apex:column value="{!o.BillingStreet}"/>
+                    <apex:column value="{!o.BillingCity}"/>
+                    <apex:column value="{!o.BillingPostalCode}"/>
+                    <apex:column value="{!o.BillingState}"/>
+                    <apex:column >
+                        <apex:commandbutton action="/merge/accmergewizard.jsp?goNext&cid={!sid1}&cid={!o.Id}" value="Merge" id="Merge" rendered="true" >                         
+                        </apex:commandbutton>
+                    </apex:column>                     
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+ 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
